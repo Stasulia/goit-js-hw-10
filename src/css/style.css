@@ -1,0 +1,50 @@
+body {
+   background-image: url('/src/images/14710.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+p, h2 {
+    margin: 0;
+    padding: 0;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 20px;
+    border-color: #ff9fa3;
+}
+
+.hidden {
+ visibility: hidden;
+}
+
+.breed-select {
+    display: flex;
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+.form {
+    width: 100%;
+    background-color: white;
+    border-radius: 20px;
+    border-color: #ff9fa3;
+}
+
+.title {
+    display: flex;
+    color: black;
+    justify-content: center;
+    font-size: 40px;
+}
+
+.text {
+    display: flex;
+    color: #5E5B55;
+    justify-content: center;
+    font-size: 20px;
+}
