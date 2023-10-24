@@ -19,7 +19,6 @@ selectEl.addEventListener('change', onSelect)
 // }
 
 function getBreedList(breed) {
-    Notiflix.Notify.info(loaderEl.textContent)
     selectEl.innerHTML = breed
     .map(breed => `<option value="${breed.id}">${breed.name}</option>`)
     .join('');

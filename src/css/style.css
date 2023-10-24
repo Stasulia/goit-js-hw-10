@@ -75,3 +75,10 @@ img {
     padding: 50px 50px;
     margin: 20px auto 0 auto;
 }
+.loader {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    color: #5E5B55;
+    animation: fadeIn 1s ease;
+  }
