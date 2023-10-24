@@ -7,63 +7,74 @@ import 'slim-select/dist/slimselect.css';
 import Notiflix from 'notiflix';
 import 'notiflix/dist/notiflix-3.2.6.min.css'
 
-// const BASE_URL = "https://api.thecatapi.com/v1";
-// const API_KEY = "live_n895sUKQ0Sl0Tmpt66VqzsxDp8YSVWYEWCbf719jKIZjS4KBvyks0z04Sam8XJ7i";
-
-// async function getImage() {
-//     const image = await theCatAPI.images.getImage("IMAGE_ID");
-//     return image;
-//   }
 errorEl.classList.add('hidden');
-loaderEl.classList.add('hidden');
 
 selectEl.addEventListener('change', onSelect)
+
+window.addEventListener('load', onLoad) 
+
+function onLoad() {
+    fetchBreeds();
+    Notiflix.Notify.info(loaderEl.textContent)
+}
 
 function getBreedList(breed) {
     selectEl.innerHTML = breed
     .map(breed => `<option value="${breed.id}">${breed.name}</option>`)
-    .join('\n');
+    .join('');
 } 
 
-function fetchBreedsList() {
+//function fetchBreedsList() {
     fetchBreeds()
     .then(result => {
         getBreedList(result);
     })
     .then (() => new SlimSelect({ select: `.breed-select`}))
     .catch(() => {
-        Notiflix.Notify.failure(errorEl.value);
+        Notiflix.Notify.failure(errorEl.textContent, {timeout: 4000, userIcon: false});
+    })
+     .finally(() => {
+      // Notiflix.Notify.info(loaderEl.textContent)
+       loaderEl.classList.add('hidden');
+    });
+//}
+    function onSelect(event){
+    const selectedBreedId = event.currentTarget.value;
+   // console.log(selectedBreedId);
+    
+    fetchCatByBreed(selectedBreedId)
+     .then(data => {
+        infoAboutCatEl.innerHTML = createMarkup(data);
+        infoAboutCatEl.classList.remove('.hidden');
+    }).catch(() => {
+        Notiflix.Notify.failure(errorEl.textContent, {timeout: 4000,userIcon: false});
     })
     .finally(() => {
-        //Notiflix.Notify.info(loaderEl.value)
+      // Notiflix.Notify.info(loaderEl.textContent)
        loaderEl.classList.add('hidden');
     });
 }
 
-function onSelect(event){
-    const selectedBreedId = event.currentTarget.value;
-    infoAboutCatEl.classList.add('hidden');
+//  function createAddMarkup(data) {
+//     const markup = createMarkup(data);
+//     addMarkup(markup);
+// }
 
-    fetchCatByBreed(selectedBreedId)
-        .then(data => {
-        createAddMarkup(data);
-        infoAboutCatEl.classList.remove('hidden');
-    }).catch(() => {
-        Notiflix.Notify.failure(errorEl.value);
-    })
-    .finally(() => {
-        Notiflix.Notify.info(loaderEl.value)
-    })
- }
+// function addMarkup(markup) {
+//    infoAboutCatEl.insertAdjacentHTML('afterbegin', markup);
+// }
 
- function createAddMarkup(state) {
-    const markup = createMarkup(state);
-    addMarkup(markup);
-}
-
-function addMarkup(markup) {
-    selectEl.insertAdjacentHTML('afterbegin', markup);
-}
-
-  fetchBreedsList();
+// function createMarkup(data) {
+//     return data
+//     .map (({url, name, temperament, description}) => {
+//     return `<img src="${url}" alt="${name}" width="500">
+//     <div class="form">
+//       <h2 class="title">${name}</h2>
+//       <p class="text">${description}</p>
+//       <p class="text">${temperament}</p>
+//     </div>`;
+// })
+//     .join('');
+// }
+  //fetchBreedsList();
 
