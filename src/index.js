@@ -11,14 +11,15 @@ errorEl.classList.add('hidden');
 
 selectEl.addEventListener('change', onSelect)
 
-window.addEventListener('load', onLoad) 
+// window.addEventListener('load', onLoad) 
 
-function onLoad() {
-    fetchBreeds();
-    Notiflix.Notify.info(loaderEl.textContent)
-}
+// function onLoad() {
+//     fetchBreeds();
+//     Notiflix.Notify.info(loaderEl.textContent)
+// }
 
 function getBreedList(breed) {
+    Notiflix.Notify.info(loaderEl.textContent)
     selectEl.innerHTML = breed
     .map(breed => `<option value="${breed.id}">${breed.name}</option>`)
     .join('');
@@ -29,7 +30,7 @@ function getBreedList(breed) {
     .then(result => {
         getBreedList(result);
     })
-    .then (() => new SlimSelect({ select: `.breed-select`}))
+    .then (() => new SlimSelect({ select: `.breed-select`, settings: {placeholderText: ' ' }}))
     .catch(() => {
         Notiflix.Notify.failure(errorEl.textContent, {timeout: 4000, userIcon: false});
     })
@@ -54,6 +55,26 @@ function getBreedList(breed) {
        loaderEl.classList.add('hidden');
     });
 }
+
+// function createPromise(position, delay) {
+//     const promise = new Promise((resolve, reject) => {
+//     const shouldResolve = Math.random() > 0.3;
+//     setTimeout(() => {
+//     if (shouldResolve) {
+//       // Fulfill
+//       resolve({position, delay});
+//     } else {
+//       // Reject
+//       reject({position, delay});
+//     }
+//   }, delay);
+//   });
+//   return promise;
+//   }
+
+
+
+
 
 //  function createAddMarkup(data) {
 //     const markup = createMarkup(data);
