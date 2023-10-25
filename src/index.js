@@ -11,12 +11,9 @@ errorEl.classList.add('hidden');
 
 selectEl.addEventListener('change', onSelect)
 
-// window.addEventListener('load', onLoad) 
-
-// function onLoad() {
-//     fetchBreeds();
-//     Notiflix.Notify.info(loaderEl.textContent)
-// }
+function onLoad() {
+    loaderEl.classList.remove('hidden')
+}
 
 function getBreedList(breed) {
     selectEl.innerHTML = breed
@@ -24,7 +21,8 @@ function getBreedList(breed) {
     .join('');
 } 
 
-//function fetchBreedsList() {
+function fetchBreedsList() {
+    onLoad();
     fetchBreeds()
     .then(result => {
         getBreedList(result);
@@ -34,14 +32,15 @@ function getBreedList(breed) {
         Notiflix.Notify.failure(errorEl.textContent, {timeout: 4000, userIcon: false});
     })
      .finally(() => {
-      // Notiflix.Notify.info(loaderEl.textContent)
        loaderEl.classList.add('hidden');
     });
-//}
+}
+
     function onSelect(event){
+    onLoad();
     const selectedBreedId = event.currentTarget.value;
-   // console.log(selectedBreedId);
-    
+    infoAboutCatEl.classList.add('.hidden');
+
     fetchCatByBreed(selectedBreedId)
      .then(data => {
         infoAboutCatEl.innerHTML = createMarkup(data);
@@ -50,51 +49,9 @@ function getBreedList(breed) {
         Notiflix.Notify.failure(errorEl.textContent, {timeout: 4000,userIcon: false});
     })
     .finally(() => {
-      // Notiflix.Notify.info(loaderEl.textContent)
        loaderEl.classList.add('hidden');
     });
 }
 
-// function createPromise(position, delay) {
-//     const promise = new Promise((resolve, reject) => {
-//     const shouldResolve = Math.random() > 0.3;
-//     setTimeout(() => {
-//     if (shouldResolve) {
-//       // Fulfill
-//       resolve({position, delay});
-//     } else {
-//       // Reject
-//       reject({position, delay});
-//     }
-//   }, delay);
-//   });
-//   return promise;
-//   }
-
-
-
-
-
-//  function createAddMarkup(data) {
-//     const markup = createMarkup(data);
-//     addMarkup(markup);
-// }
-
-// function addMarkup(markup) {
-//    infoAboutCatEl.insertAdjacentHTML('afterbegin', markup);
-// }
-
-// function createMarkup(data) {
-//     return data
-//     .map (({url, name, temperament, description}) => {
-//     return `<img src="${url}" alt="${name}" width="500">
-//     <div class="form">
-//       <h2 class="title">${name}</h2>
-//       <p class="text">${description}</p>
-//       <p class="text">${temperament}</p>
-//     </div>`;
-// })
-//     .join('');
-// }
-  //fetchBreedsList();
+ fetchBreedsList();
 
