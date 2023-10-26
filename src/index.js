@@ -7,13 +7,9 @@ import 'slim-select/dist/slimselect.css';
 import Notiflix from 'notiflix';
 import 'notiflix/dist/notiflix-3.2.6.min.css'
 
-//errorEl.classList.add('hidden');
+//errorEl.classList.add('is-hidden');
 
 selectEl.addEventListener('change', onSelect)
-
-function onLoad() {
-   // loaderEl.classList.remove('hidden')
-}
 
 function getBreedList(breed) {
     selectEl.innerHTML = breed
@@ -22,35 +18,33 @@ function getBreedList(breed) {
 } 
 
 function fetchBreedsList() {
-    onLoad();
     fetchBreeds()
     .then(result => {
         getBreedList(result);
-     //   selectEl.classList.remove('is-hidden')
+        selectEl.classList.remove('is-hidden')
     })
     .then (() => new SlimSelect({ select: `.breed-select`, settings: {placeholderText: ' ' }}))
     .catch(() => {
         Notiflix.Notify.failure(errorEl.textContent, {timeout: 4000, userIcon: false});
     })
      .finally(() => {
-      // loaderEl.classList.add('hidden');
+      loaderEl.classList.add('is-hidden');
     });
 }
 
     function onSelect(event){
-    onLoad();
     const selectedBreedId = event.currentTarget.value;
-  //  infoAboutCatEl.classList.add('.hidden');
-
+    infoAboutCatEl.classList.add('.is-hidden');
+    loaderEl.classList.remove('is-hidden')
     fetchCatByBreed(selectedBreedId)
      .then(data => {
         infoAboutCatEl.innerHTML = createMarkup(data);
-      //  infoAboutCatEl.classList.remove('.hidden');
+        infoAboutCatEl.classList.remove('.is-hidden');
     }).catch(() => {
         Notiflix.Notify.failure(errorEl.textContent, {timeout: 4000,userIcon: false});
     })
     .finally(() => {
-      // loaderEl.classList.add('hidden');
+      loaderEl.classList.add('is-hidden');
     });
 }
 
